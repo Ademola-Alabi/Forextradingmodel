@@ -16,18 +16,16 @@ def preprocess_image(image):
     img_size = (400, 400)
     if image.mode != 'RGB':
         image = image.convert('RGB')
-    image = image.resize(img_size)
-    img_array = tf.keras.preprocessing.image.img_to_array(image)
-    img_array = np.expand_dims(img_array, 0)
+    img = image.resize(img_size)
+    img_array = tf.keras.preprocessing.image.img_to_array(img)
+    img_array = tf.expand_dims(img_array, 0)
     img_array /= 255.0  # Normalize to [0, 1]
     return img_array
 
 # Function to predict the class of the image
 def predict(image, model):
     img_array = preprocess_image(image)
-    st.write(f"Preprocessed image array shape: {img_array.shape}")
     prediction = model.predict(img_array)
-    st.write(f"Raw prediction: {prediction}")
     return prediction
 
 # Streamlit interface
