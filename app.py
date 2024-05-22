@@ -5,9 +5,20 @@ from tensorflow.keras.models import load_model
 from tensorflow.keras.optimizers import Adamax
 from PIL import Image
 
+# Re-save the model to ensure compatibility
+def resave_model(original_model_path, new_model_path):
+    model = load_model(original_model_path, compile=False)
+    model.save(new_model_path)
+
+# Path to the original and new model files
+original_model_path = 'forexmodel.h5'
+new_model_path = 'forexmodel_v2.h5'
+
+# Re-save the model
+resave_model(original_model_path, new_model_path)
+
 # Load and compile the model
-model_path = 'forexmodel.h5'
-loaded_model = load_model(model_path, compile=False)
+loaded_model = load_model(new_model_path, compile=False)
 loaded_model.compile(Adamax(learning_rate=0.001), loss='categorical_crossentropy', metrics=['accuracy'])
 st.write("Model loaded and compiled successfully")
 
