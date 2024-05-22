@@ -5,38 +5,27 @@ from tensorflow.keras.models import load_model
 from tensorflow.keras.optimizers import Adamax
 from PIL import Image
 
-# Re-save the model to ensure compatibility
-def resave_model(original_model_path, new_model_path):
-    model = load_model(original_model_path, compile=False)
-    model.save(new_model_path)
-
-# Path to the original and new model files
-original_model_path = 'forexmodel.h5'
-new_model_path = 'forexmodel_v2.h5'
-
-# Re-save the model
-resave_model(original_model_path, new_model_path)
-
 # Load and compile the model
-loaded_model = load_model(new_model_path, compile=False)
+model_path = 'forexmodel.h5'
+loaded_model = load_model(model_path, compile=False)
 loaded_model.compile(Adamax(learning_rate=0.001), loss='categorical_crossentropy', metrics=['accuracy'])
 st.write("Model loaded and compiled successfully")
 
 # Function to preprocess the image
 def preprocess_image(image):
-    img_size = (400, 400)
     if image.mode != 'RGB':
         image = image.convert('RGB')
-    img = image.resize(img_size)
+    img = image.resize((400, 400))
     img_array = tf.keras.preprocessing.image.img_to_array(img)
     img_array = tf.expand_dims(img_array, 0)
-    img_array /= 255.0  # Normalize to [0, 1]
     return img_array
 
 # Function to predict the class of the image
 def predict(image, model):
     img_array = preprocess_image(image)
+    st.write(f"Preprocessed image shape: {img_array.shape}")
     prediction = model.predict(img_array)
+    st.write(f"Raw model prediction: {prediction}")
     return prediction
 
 # Streamlit interface
