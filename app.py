@@ -9,6 +9,7 @@ from PIL import Image
 model_path = 'forexmodel.h5'
 loaded_model = load_model(model_path, compile=False)
 loaded_model.compile(Adamax(learning_rate=0.001), loss='categorical_crossentropy', metrics=['accuracy'])
+st.write("Model loaded and compiled successfully")
 
 # Function to preprocess the image
 def preprocess_image(image):
@@ -24,7 +25,9 @@ def preprocess_image(image):
 # Function to predict the class of the image
 def predict(image, model):
     img_array = preprocess_image(image)
+    st.write(f"Preprocessed image array shape: {img_array.shape}")
     prediction = model.predict(img_array)
+    st.write(f"Raw prediction: {prediction}")
     return prediction
 
 # Streamlit interface
