@@ -33,7 +33,7 @@ st.markdown("<h1 style='text-align: center; color: red;'>Welcome to the Forex Tr
 st.markdown("<p style='text-align: center; color: blue;'>Upload an image to get a prediction of BUY or SELL signals using our trained deep learning model.</p>", unsafe_allow_html=True)
 
 # Add an image to show it is a prediction app for Forex Trading
-st.image("https://your-image-url-here.com/forex-trading.jpg", caption="Forex Trading Signal Predictor", use_column_width=True)
+st.image("ForexModelimage.jpg", caption="Forex Trading Signal Predictor", use_column_width=True)
 
 # Upload images
 uploaded_file = st.file_uploader("Choose an image file", type=["jpg", "png"])
