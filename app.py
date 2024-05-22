@@ -6,6 +6,7 @@ from PIL import Image
 
 # Load the model
 model = load_model('updateforexmodel.h5')
+st.write("Model loaded successfully")
 
 # Define image preprocessing function
 def preprocess_image(image):
@@ -20,10 +21,12 @@ def preprocess_image(image):
 # Define prediction function
 def predict(image, model):
     img_array = preprocess_image(image)
+    st.write(f"Image shape after preprocessing: {img_array.shape}")
     prediction = model.predict(img_array)
-    class_idx = np.argmax(prediction, axis=1)[0]
-    classes = ["SELL", "BUY"]
-    return classes[class_idx]
+    st.write(f"Raw model prediction: {prediction}")
+    buy_prob = prediction[0][1]
+    sell_prob = prediction[0][0]
+    return buy_prob, sell_prob
 
 # Streamlit interface
 st.title("Forex Prediction Model")
@@ -36,8 +39,8 @@ if uploaded_files:
         image = Image.open(uploaded_file)
         st.image(image, caption="Uploaded Image", use_column_width=True)
         with st.spinner("Classifying..."):
-            label = predict(image, model)
-            st.write(f"Prediction: {label}")
+            buy_prob, sell_prob = predict(image, model)
+            st.write(f"Prediction: BUY {buy_prob*100:.2f}% | SELL {sell_prob*100:.2f}%")
 
 # Add some information about the app
 st.sidebar.title("About")
