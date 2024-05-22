@@ -29,7 +29,11 @@ def predict(image, model):
     return prediction
 
 # Streamlit interface
-st.title("Forex Trading Signal Predictor")
+st.markdown("<h1 style='text-align: center; color: red;'>Welcome to the Forex Trading Signal Predictor!</h1>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center; color: blue;'>Upload an image to get a prediction of BUY or SELL signals using our trained deep learning model.</p>", unsafe_allow_html=True)
+
+# Add an image to show it is a prediction app for Forex Trading
+st.image("https://your-image-url-here.com/forex-trading.jpg", caption="Forex Trading Signal Predictor", use_column_width=True)
 
 # Upload images
 uploaded_file = st.file_uploader("Choose an image file", type=["jpg", "png"])
@@ -47,8 +51,8 @@ if uploaded_file is not None:
         sell_prob = prediction[0][1] * 100
         predicted_class = classes[np.argmax(prediction)]
         
-        st.write(f"Prediction: **{predicted_class}**")
-        st.write(f"Confidence: BUY {buy_prob:.2f}% | SELL {sell_prob:.2f}%")
+        st.markdown(f"<h2 style='text-align: center;'>Prediction: <span style='color: green;'>{predicted_class}</span></h2>", unsafe_allow_html=True)
+        st.markdown(f"<p style='text-align: center;'>Confidence: BUY {buy_prob:.2f}% | SELL {sell_prob:.2f}%</p>", unsafe_allow_html=True)
 
 # Add some information about the app
 st.sidebar.title("About")
