@@ -1,9 +1,7 @@
 import streamlit as st
 import numpy as np
-import pandas as pd
 import matplotlib.pyplot as plt
 from tensorflow.keras.models import load_model
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from PIL import Image
 
 # Load the model
@@ -12,6 +10,8 @@ model = load_model('updateforexmodel.h5')
 # Define image preprocessing function
 def preprocess_image(image):
     img_size = (400, 400)
+    if image.mode != 'RGB':
+        image = image.convert('RGB')
     image = image.resize(img_size)
     img_array = np.array(image) / 255.0
     img_array = img_array.reshape((1, *img_size, 3))
